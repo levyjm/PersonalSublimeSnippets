@@ -15,7 +15,7 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
 		# Get list of languages
 		scriptpath = os.path.dirname(__file__)
-		filename = os.path.join(scriptpath, 'languages.txt')
+		filename = os.path.join(scriptpath, 'data_files/languages.txt')
 		lang_file = open(filename, "r+")
 		lang_set = set(lang_file.readlines())
 
@@ -23,12 +23,12 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 		if not event in lang_set:
 			lang_file.write(event)
 			lang_file.write("\n")
-			
+
 		lang_file.close()
 
 
 		scriptpath = os.path.dirname(__file__)
-		filename = os.path.join(scriptpath, 'snippets.json')
+		filename = os.path.join(scriptpath, 'data_files/snippets.json')
 		snippets_file = open(filename, "w+")
 
 		json.dump(event, snippets_file)
