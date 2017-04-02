@@ -13,10 +13,9 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
 	# Add the snippet to current snippets 
 	def add_snippet(self, event, lang):
-
-		scriptpath = os.path.dirname(__file__)
 		
 		try:
+			scriptpath = os.path.dirname(__file__)
 			filename = os.path.join(scriptpath, 'data_files/snippets.json')
 			snippets_file = open(filename, "a+")
 			json.dump(event, snippets_file)
@@ -31,19 +30,19 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
 		lang = event
 
-		# Get list of languages
-		scriptpath = os.path.dirname(__file__)
-
 		try:
+			scriptpath = os.path.dirname(__file__)
 			filename = os.path.join(scriptpath, 'data_files/languages.txt')
 			lang_file = open(filename, "a+")
-			lang_set = set(lang_file.readlines())
+			lang_file.seek(0)
+			lang_set = set(line.strip() for line in lang_file)
 		except (OSError, IOError) as lang_file_err:
 			print("Could not open, read, or create languages.txt due to error: {0}".format(lang_file_err))
+			lang_set = set()
 
 		# check in set if language requested is in set and write if not
-		if not event in lang_set:
-			lang_file.write(event)
+		if lang not in lang_set:
+			lang_file.write(lang)
 			lang_file.write("\n")
 
 		lang_file.close()
