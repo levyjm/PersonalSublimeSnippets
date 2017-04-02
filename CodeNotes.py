@@ -2,22 +2,33 @@ import json
 import pprint
 import sublime
 import sublime_plugin
-from . import snippet_input
+from . import SnippetInput
 
 
 # Default class when CodeNotes is selected from the context menu
 class CodenotesCommand(sublime_plugin.WindowCommand):
 
-	#def add_snippet(self, event):
+	# Add the snippet to current snippets 
+	def add_snippet(self, event):
+		scriptpath = os.path.dirname(__file__)
+		filename = os.path.join(scriptpath, 'data_files/snippets.json')
+		snippets_file = open(filename, "w+")
+
+		json.dump(event, snippets_file)
+
 
 	# Determine what language the snippet is in and process the lang
 	def process_language(self, event):
 
 		# Get list of languages
 		scriptpath = os.path.dirname(__file__)
-		filename = os.path.join(scriptpath, 'data_files/languages.txt')
-		lang_file = open(filename, "r+")
-		lang_set = set(lang_file.readlines())
+
+		try:
+			filename = os.path.join(scriptpath, 'data_files/languages.txt')
+			lang_file = open(filename, "a+")
+			lang_set = set(lang_file.readlines())
+		except (OSError, IOError) as err:
+			print("Could not open, read, or create file due to error: {0}".format(err))
 
 		# check in set if language requested is in set and write if not
 		if not event in lang_set:
@@ -26,12 +37,8 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
 		lang_file.close()
 
-
-		scriptpath = os.path.dirname(__file__)
-		filename = os.path.join(scriptpath, 'data_files/snippets.json')
-		snippets_file = open(filename, "w+")
-
-		json.dump(event, snippets_file)
+		self.window.show_input_panel("Enter snippet here:", 
+				"", self.add_snippet, 0, 0)
 	
 	# Determine which option to process_option
 	def process_option(self, event):
