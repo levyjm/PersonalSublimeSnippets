@@ -13,6 +13,8 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
 	# Add the snippet to current snippets 
 	def add_snippet(self, event, lang):
+
+		print(lang)
 		
 		try:
 			scriptpath = os.path.dirname(__file__)
@@ -48,7 +50,7 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 		lang_file.close()
 
 		self.window.show_input_panel("Enter snippet here:", 
-				"", self.add_snippet(event, lang), 0, 0)
+				"", lambda event: self.add_snippet(event, lang), 0, 0)
 	
 	# Determine which option to process_option
 	def process_option(self, event):
