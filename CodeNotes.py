@@ -1,24 +1,35 @@
 import json
+import os
 import pprint
 import sublime
 import sublime_plugin
 from . import SnippetInput
 
 
-# Default class when CodeNotes is selected from the context menu
+""" This is the default class when 
+CodeNotes is selected from the context menu
+"""
 class CodenotesCommand(sublime_plugin.WindowCommand):
 
 	# Add the snippet to current snippets 
-	def add_snippet(self, event):
-		scriptpath = os.path.dirname(__file__)
-		filename = os.path.join(scriptpath, 'data_files/snippets.json')
-		snippets_file = open(filename, "w+")
+	def add_snippet(self, event, lang):
 
-		json.dump(event, snippets_file)
+		scriptpath = os.path.dirname(__file__)
+		
+		try:
+			filename = os.path.join(scriptpath, 'data_files/snippets.json')
+			snippets_file = open(filename, "a+")
+			json.dump(event, snippets_file)
+		except (OSError, IOError) as snippet_file_err:
+			print("Could not open, read, or create languages.txt" 
+				+ " due to error: {0}".format(snippet_file_err))
+		
 
 
 	# Determine what language the snippet is in and process the lang
 	def process_language(self, event):
+
+		lang = event
 
 		# Get list of languages
 		scriptpath = os.path.dirname(__file__)
@@ -27,8 +38,8 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 			filename = os.path.join(scriptpath, 'data_files/languages.txt')
 			lang_file = open(filename, "a+")
 			lang_set = set(lang_file.readlines())
-		except (OSError, IOError) as err:
-			print("Could not open, read, or create file due to error: {0}".format(err))
+		except (OSError, IOError) as lang_file_err:
+			print("Could not open, read, or create languages.txt due to error: {0}".format(lang_file_err))
 
 		# check in set if language requested is in set and write if not
 		if not event in lang_set:
@@ -38,7 +49,7 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 		lang_file.close()
 
 		self.window.show_input_panel("Enter snippet here:", 
-				"", self.add_snippet, 0, 0)
+				"", self.add_snippet(event, lang), 0, 0)
 	
 	# Determine which option to process_option
 	def process_option(self, event):
