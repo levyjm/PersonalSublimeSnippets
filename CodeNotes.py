@@ -11,6 +11,19 @@ import sublime
 import sublime_plugin
 
 
+class AddCommand(sublime_plugin.TextCommand):
+    """ This is the a child class of sublime_plugin to 
+    access the TextCommand's capabilities.
+    """
+
+
+    def run(self, edit):
+        """This is the function invoked when view.run_command('add') is called"""
+
+
+        self.view.insert(edit, self.view.sel()[0].begin(), "Hello")
+
+
 
 class CodenotesCommand(sublime_plugin.WindowCommand):
     """ This is the default class invoked when
@@ -18,8 +31,11 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
     """
 
     def paste_snippet(self, event):
-        """Pastes the selected snippet into the user's editor"""
-        pass    # Placeholder
+        """Invokes the AddCommand class"""
+
+        view = self.window.active_view()
+        view.run_command('add')
+        
 
 
     def search_snippet(self, lang):
@@ -131,22 +147,23 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
         menu_option = 0
 
-        print(event)
-
         if event == 0:
-            self.window.show_input_panel("Enter snippet language here:",
-                                         "", lambda event: self.check_language(
+            self.window.show_input_panel("Enter snippet language here:", 
+                                    "", lambda event: self.check_language(
                                              event, menu_option), 0, 0)
         elif event == 1:
             menu_option = 1
-            self.window.show_input_panel("Find your snippets for ",
-                                         "which language?",
+            self.window.show_input_panel("Find your snippets for which language?", 
                                          "", lambda event: self.check_language(
                                              event, menu_option), 0, 0)
 
 
     def run(self):
         """Serves as the main function, kicking things off"""
+
+        global settings
+        settings = sublime.load_settings('CodeNotes.sublime-settings')
+
         menu_options = ["Add new snippet",
                         "Search for snippets",
                        ]
