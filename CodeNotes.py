@@ -8,7 +8,8 @@ activating the plugin.
 import json
 import os
 import sublime
-import sublime_plugin
+import sublime_plugins
+
 
 
 class AddCommand(sublime_plugin.TextCommand):
@@ -17,11 +18,10 @@ class AddCommand(sublime_plugin.TextCommand):
     """
 
 
-    def run(self, edit):
+    def run(self, edit, snippet):
         """This is the function invoked when view.run_command('add') is called"""
 
-
-        self.view.insert(edit, self.view.sel()[0].begin(), "Hello")
+        self.view.insert(edit, self.view.sel()[0].begin(), snippet)
 
 
 
@@ -30,11 +30,12 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
     CodeNotes is selected from the context menu
     """
 
-    def paste_snippet(self, event):
+    def paste_snippet(self, event, snippets):
         """Invokes the AddCommand class"""
 
+
         view = self.window.active_view()
-        view.run_command('add')
+        view.run_command('add', {"snippet": snippets[event]})
         
 
 
@@ -53,10 +54,15 @@ class CodenotesCommand(sublime_plugin.WindowCommand):
 
         snippets_object = json.load(snippets_file)
 
-        snippets = list(set().union(*(dict.keys() for
+
+        snippet_names = list(set().union(*(dict.keys() for
+                                      dict in snippets_object["snippets"][lang])))
+        snippet_values = list(set().union(*(dict.values() for
                                       dict in snippets_object["snippets"][lang])))
 
-        self.window.show_quick_panel(snippets, self.paste_snippet, 0, 0)
+
+        self.window.show_quick_panel(snippet_names, lambda event: self.paste_snippet(
+                                             event, snippet_values), 0, 0)
 
     @classmethod
     def add_snippet(cls, event, lang, name, lang_in_set):
