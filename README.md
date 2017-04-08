@@ -9,3 +9,9 @@ A user will activate CodeSnippets from Sublime Text, he or she will then select 
 
 ### Why
 Why not? I stumbled upon the Sublime Text API the other day and was excited to see that it is Pythonic. Although I mostly use VSCode (which already has a "snippets" feature), I thought it would be fun and relatively painless to create a Sublime Text plugin, espescially since Python is a fun language to code.
+
+But Sublime Text has this...
+
+![alt tag](https://raw.githubusercontent.com/levyjm/PersonalSublimeSnippets/master/data_files/whoops.png)
+
+Whoops. Oh well :-)
