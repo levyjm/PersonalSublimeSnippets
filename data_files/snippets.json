@@ -1,12 +1,20 @@
 {
     "snippets": {
-        "Python": [
-            {"name": "..."},
-            {"name": "..."}
-        ],
         "Java": [
-            {"name": "..."},
-            {"name": "..."}
+            {
+                "TestOne": "def process_one(self, event):\n    pass"
+            }, 
+            {
+                "TestTwo": "def process_two(self, event):\n    pass"
+            }
+        ], 
+        "Python": [
+            {
+                "Test1": "Testing one..."
+            }, 
+            {
+                "Test2": "Testing two..."
+            }
         ]
     }
 }
