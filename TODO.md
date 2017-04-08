@@ -7,5 +7,5 @@
 + More error checking; examples:
     * "No snippets here"
     * When users exit without adding or searching snippets
-+ Change "language check" to display a quick panel instead of an input panel
++ ~~Change "language check" to display a quick panel instead of an input panel~~
 
