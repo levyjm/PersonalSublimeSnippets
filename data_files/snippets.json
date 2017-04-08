@@ -1,19 +1,23 @@
 {
     "snippets": {
+
         "Java": [
             {
-                "TestOne": "def process_one(self, event):\n    pass"
+                "TestOne": "Testing one..."
             }, 
             {
-                "TestTwo": "def process_two(self, event):\n    pass"
+                "TestTwo": "Testing two..."
             }
         ], 
         "Python": [
             {
-                "Test1": "Testing one..."
+                "Function declaration checking to see if the Cubs won": "def did_cubs_win():\n    return True"
             }, 
             {
-                "Test2": "Testing two..."
+                "Test": "def process_one(self, event):\n    pass"
+            },
+            {
+                "TestTwo": "def process_two(self, event):\n    pass"
             }
         ]
     }
